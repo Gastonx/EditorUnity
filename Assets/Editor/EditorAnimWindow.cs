@@ -11,6 +11,7 @@ public class EditorAnimWindow : EditorWindow
    
     string FillButton = "FillList";
     string focus = "Focus";
+    string Highlight = "Highlight";
     string AllAnimator = "ListAnims";
     string Play = "Play";
     float _lastEditorTime = 0f;
@@ -86,14 +87,18 @@ public class EditorAnimWindow : EditorWindow
             bool PlayerButton = new bool();
             PlayerButton = false;
             Player.Add(PlayerButton);
-            
 
+            
 
             GUILayout.Label(ListAnimator[i].name, EditorStyles.boldLabel);
             GUILayout.BeginHorizontal();
             if (GUILayout.Button(focus))
             {
                 Selection.activeGameObject = ListAnimator[i].gameObject;
+            }
+            if (GUILayout.Button(Highlight))
+            {
+                UnityEditor.EditorGUIUtility.PingObject(ListAnimator[i]);
             }
             if (GUILayout.Button(AllAnimator))
             {
@@ -154,19 +159,22 @@ public class EditorAnimWindow : EditorWindow
 
         EditorGUILayout.Space();
 
+        
         if (SelectedClip != null)
         {
-            
+            GUILayout.Label("Animation Control", EditorStyles.boldLabel);
+
+            EditorGUILayout.Space();
+
             if (GUILayout.Button(Play))
             {
                 StartAnimSimulation();
             }
             EditorGUILayout.Space();
             
+            animTime = EditorGUILayout.Slider("Animation Frame",animTime, 0, SelectedClip.length);
 
             EditorGUILayout.Space();
-
-            animTime = EditorGUILayout.Slider(animTime, 0, SelectedClip.length);
 
             animationSpeed = EditorGUILayout.FloatField("Animation Speed", animationSpeed);
            
